@@ -1,6 +1,6 @@
 import { LoginInput, RegisterInput, LoginResponse } from '@/types/auth';
 
-const BASE_URL = process.env.NEXT_PUBLIC_API_URL ||'/api';
+const BASE_URL = '/api';
 
 export async function register(data: RegisterInput): Promise<void> {
   const res = await fetch(`${BASE_URL}/auth/register`, {

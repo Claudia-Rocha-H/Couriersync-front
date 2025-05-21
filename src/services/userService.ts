@@ -1,6 +1,6 @@
 import { IGetUsers } from '@/types/users'
 
-const BASE_URL = process.env.NEXT_PUBLIC_API_URL ||'/api'
+const BASE_URL = '/api';
 
 export async function getUsers(): Promise<IGetUsers[]> {
   const token = localStorage.getItem('token')

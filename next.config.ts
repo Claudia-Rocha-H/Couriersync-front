@@ -1,14 +1,14 @@
 import type { NextConfig } from "next";
 
-const nextConfig = {
+const API_URL = process.env.NEXT_PUBLIC_API_URL || 'http://localhost:4000';
+
+const nextConfig: NextConfig = {
   async rewrites() {
     return [
       {
-        source: '/api/:path*',          
-        destination: 'https://couriersync.onrender.com/api/:path*'  
+        source: '/api/:path*',
+        destination: `${API_URL}/api/:path*`  
       }
     ]
   },
-}
-
-export default nextConfig;
+};
