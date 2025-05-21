@@ -31,8 +31,12 @@ export function useAuth() {
         router.push('/default');
         break;
     }
-  } catch (err: any) {
-    setError(err.message || 'Error en login');
+  } catch (err: unknown) {
+    if (err instanceof Error) {
+      setError(err.message);
+    } else {
+      setError('Error en login');
+    }
   } finally {
     setLoading(false);
   }
@@ -45,8 +49,12 @@ export function useAuth() {
     try {
       await register(data);
       router.push('/login');
-    } catch (err: any) {
-      setError(err.message || 'Error en registro');
+    } catch (err: unknown) {
+      if (err instanceof Error) {
+      setError(err.message);
+    } else {
+      setError('Error en Registro');
+    }
     } finally {
       setLoading(false);
     }

@@ -13,8 +13,12 @@ export function useUsers() {
     try {
       const data = await getUsers()
       setUsers(data)
-    } catch (err: any) {
-      setError(err.message || 'Error al obtener usuarios')
+    } catch (err: unknown) {
+      if (err instanceof Error) {
+      setError(err.message);
+    } else {
+      setError('Error al obtener usuarios');
+    }
     } finally {
       setLoading(false)
     }
