@@ -19,7 +19,7 @@ export function useAuth() {
 
     switch (res.role) {
       case 'administrator':
-        router.push('/admin/users');
+        router.push('/admin/home');
         break;
       case 'operator':
         router.push('/operator');

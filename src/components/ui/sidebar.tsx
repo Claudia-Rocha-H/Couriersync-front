@@ -4,8 +4,8 @@ interface SidebarProps {
 
 const linksByRole = {
   admin: [
-    { label: "Inicio", href: "#" },
-    { label: "Usuarios", href: "#" },
+    { label: "Inicio", href: "/admin/home" },
+    { label: "Usuarios", href: "/admin/users" },
     { label: "Ciudades", href: "#" },
     { label: "Rutas", href: "#" },
     { label: "Asignaciones", href: "#" },
