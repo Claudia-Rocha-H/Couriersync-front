@@ -1,6 +1,6 @@
 import { LoginInput, RegisterInput, LoginResponse } from '@/types/auth';
 
-const BASE_URL = 'https://couriersync.onrender.com/api';
+const BASE_URL = 'http://localhost:8080/api';
 
 export async function register(data: RegisterInput): Promise<void> {
   const res = await fetch(`${BASE_URL}/auth/register`, {
@@ -20,6 +20,10 @@ export async function login(data: LoginInput): Promise<LoginResponse> {
   });
 
   if (!res.ok) throw new Error('Credenciales inválidas');
+  const result = await res.json();
 
-  return res.json();
+  localStorage.setItem('token', result.token);
+  localStorage.setItem('role', result.role);
+
+  return result;
 }

@@ -68,7 +68,6 @@ export default function LoginPage() {
         </p>
       </div>
 
-      {/* Columna Derecha */}
       <div className="hidden md:block md:w-1/2 relative">
         <Image src="/img/background.jpg" alt="Background" fill className="object-cover" />
       </div>

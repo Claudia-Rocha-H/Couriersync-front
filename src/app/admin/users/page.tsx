@@ -1,12 +1,77 @@
-'use client'
+"use client"
 
 import { useUsers } from '@/features/users/hooks/useUsers'
 import { useState } from 'react'
+import ConfirmDeleteModal from '@/components/modals/delete_user'
+import EditUserModal from '@/components/modals/edit_user'
+import { IGetUsers } from '@/types/users' 
+import { deleteUser, updateUser } from '@/services/userService'
 
 export default function AdminUsersPage() {
-  const { users, loading, error } = useUsers()
+  const { users, loading, error, refetch } = useUsers() 
   const [filter, setFilter] = useState('todos')
   const [search, setSearch] = useState('')
+  const [modalOpen, setModalOpen] = useState(false)
+  const [userToDelete, setUserToDelete] = useState<number | null>(null)
+  const [isEditModalOpen, setIsEditModalOpen] = useState(false)
+  const [selectedUser, setSelectedUser] = useState<IGetUsers | null>(null)
+
+  type EditUserData = {
+    name: string
+    email: string
+    password: string
+    role: string
+  }
+
+  const handleConfirmEdit = async (updatedData: EditUserData) => {
+  if (!selectedUser) return;
+
+  try {
+    const roleMap: Record<string, number> = {
+      administrator: 1,
+      operator: 2,
+      driver: 3,
+    };
+
+    const role_id = roleMap[updatedData.role];
+    if (!role_id) throw new Error('Rol inválido');
+
+    await updateUser(selectedUser.user_id, {
+      name: updatedData.name,
+      email: updatedData.email,
+      role_id,
+    });
+
+    alert('Usuario actualizado correctamente');
+    if (refetch) await refetch();
+    setIsEditModalOpen(false);
+    setSelectedUser(null);
+  } catch (error: any) {
+    alert(`Error al actualizar: ${error.message}`);
+  }
+};
+
+
+  const handleDeleteClick = (userId: number) => {
+    setUserToDelete(userId)
+    setModalOpen(true)
+  }
+
+  const handleConfirmDelete = async () => {
+  if (userToDelete !== null) {
+    try {
+      await deleteUser(userToDelete);
+      alert('Usuario eliminado correctamente');
+      if (refetch) await refetch();
+    } catch (error: any) {
+      alert(`Error: ${error.message}`);
+    } finally {
+      setModalOpen(false);
+      setUserToDelete(null);
+    }
+  }
+}
+
 
   const filteredUsers = users?.filter(user => {
     const matchesRole = filter === 'todos' || user.role === filter
@@ -62,8 +127,21 @@ export default function AdminUsersPage() {
                   <td className="py-2 px-4 border-b">{user.email}</td>
                   <td className="py-2 px-4 border-b capitalize">{user.role}</td>
                   <td className="py-2 px-4 border-b">
-                    <button className="text-red-500 mr-2">Borrar</button>
-                    <button className="text-blue-500">Editar</button>
+                    <button
+                      className="text-red-500 mr-2"
+                      onClick={() => handleDeleteClick(user.user_id)}
+                    >
+                      Borrar
+                    </button>
+                    <button
+                      className="text-blue-500"
+                      onClick={() => {
+                        setSelectedUser(user)
+                        setIsEditModalOpen(true)
+                      }}
+                    >
+                      Editar
+                    </button>
                   </td>
                 </tr>
               ))}
@@ -78,6 +156,28 @@ export default function AdminUsersPage() {
           </table>
         </div>
       </section>
+
+      <ConfirmDeleteModal
+        isOpen={modalOpen}
+        onClose={() => setModalOpen(false)}
+        onConfirm={handleConfirmDelete}
+      />
+
+      {selectedUser && (
+        <EditUserModal
+          isOpen={isEditModalOpen}
+          onClose={() => {
+            setIsEditModalOpen(false)
+            setSelectedUser(null)
+          }}
+          onConfirm={handleConfirmEdit}
+          initialData={{
+            name: selectedUser.name,
+            email: selectedUser.email,
+            role: selectedUser.role,
+          }}
+        />
+      )}
     </>
   )
 }
