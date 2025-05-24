@@ -1,88 +1,94 @@
-"use client"
+"use client";
 
-import { useUsers } from '@/features/users/hooks/useUsers'
-import { useState } from 'react'
-import ConfirmDeleteModal from '@/components/modals/delete_user'
-import EditUserModal from '@/components/modals/edit_user'
-import { IGetUsers } from '@/types/users' 
-import { deleteUser, updateUser } from '@/services/userService'
+import { useUsers } from '@/features/users/hooks/useUsers';
+import { useState } from 'react';
+import ConfirmDeleteModal from '@/components/modals/delete_user';
+import EditUserModal from '@/components/modals/edit_user';
+import { IGetUsers } from '@/types/users';
+import { deleteUser, updateUser } from '@/services/userService';
 
 export default function AdminUsersPage() {
-  const { users, loading, error, refetch } = useUsers() 
-  const [filter, setFilter] = useState('todos')
-  const [search, setSearch] = useState('')
-  const [modalOpen, setModalOpen] = useState(false)
-  const [userToDelete, setUserToDelete] = useState<number | null>(null)
-  const [isEditModalOpen, setIsEditModalOpen] = useState(false)
-  const [selectedUser, setSelectedUser] = useState<IGetUsers | null>(null)
+  const { users, loading, error, refetch } = useUsers();
+  const [filter, setFilter] = useState('todos');
+  const [search, setSearch] = useState('');
+  const [modalOpen, setModalOpen] = useState(false);
+  const [userToDelete, setUserToDelete] = useState<number | null>(null);
+  const [isEditModalOpen, setIsEditModalOpen] = useState(false);
+  const [selectedUser, setSelectedUser] = useState<IGetUsers | null>(null);
 
   type EditUserData = {
-    name: string
-    email: string
-    password: string
-    role: string
-  }
+    name: string;
+    email: string;
+    password: string;
+    role: string;
+  };
 
   const handleConfirmEdit = async (updatedData: EditUserData) => {
-  if (!selectedUser) return;
+    if (!selectedUser) return;
 
-  try {
-    const roleMap: Record<string, number> = {
-      administrator: 1,
-      operator: 2,
-      driver: 3,
-    };
+    try {
+      const roleMap: Record<string, number> = {
+        administrator: 1,
+        operator: 2,
+        driver: 3,
+      };
 
-    const role_id = roleMap[updatedData.role];
-    if (!role_id) throw new Error('Rol inválido');
+      const role_id = roleMap[updatedData.role];
+      if (!role_id) throw new Error('Rol inválido');
 
-    await updateUser(selectedUser.user_id, {
-      name: updatedData.name,
-      email: updatedData.email,
-      role_id,
-    });
+      await updateUser(selectedUser.user_id, {
+        name: updatedData.name,
+        email: updatedData.email,
+        role_id,
+      });
 
-    alert('Usuario actualizado correctamente');
-    if (refetch) await refetch();
-    setIsEditModalOpen(false);
-    setSelectedUser(null);
-  } catch (error: any) {
-    alert(`Error al actualizar: ${error.message}`);
-  }
-};
-
+      alert('Usuario actualizado correctamente');
+      if (refetch) await refetch();
+      setIsEditModalOpen(false);
+      setSelectedUser(null);
+    } catch (error: unknown) {
+      if (error instanceof Error) {
+        alert(`Error al actualizar: ${error.message}`);
+      } else {
+        alert('Error desconocido al actualizar el usuario');
+      }
+    }
+  };
 
   const handleDeleteClick = (userId: number) => {
-    setUserToDelete(userId)
-    setModalOpen(true)
-  }
+    setUserToDelete(userId);
+    setModalOpen(true);
+  };
 
   const handleConfirmDelete = async () => {
-  if (userToDelete !== null) {
-    try {
-      await deleteUser(userToDelete);
-      alert('Usuario eliminado correctamente');
-      if (refetch) await refetch();
-    } catch (error: any) {
-      alert(`Error: ${error.message}`);
-    } finally {
-      setModalOpen(false);
-      setUserToDelete(null);
+    if (userToDelete !== null) {
+      try {
+        await deleteUser(userToDelete);
+        alert('Usuario eliminado correctamente');
+        if (refetch) await refetch();
+      } catch (error: unknown) {
+        if (error instanceof Error) {
+          alert(`Error: ${error.message}`);
+        } else {
+          alert('Error desconocido al eliminar el usuario');
+        }
+      } finally {
+        setModalOpen(false);
+        setUserToDelete(null);
+      }
     }
-  }
-}
-
+  };
 
   const filteredUsers = users?.filter(user => {
-    const matchesRole = filter === 'todos' || user.role === filter
+    const matchesRole = filter === 'todos' || user.role === filter;
     const matchesSearch = user.name
       .toLowerCase()
-      .includes(search.toLowerCase())
-    return matchesRole && matchesSearch
-  })
+      .includes(search.toLowerCase());
+    return matchesRole && matchesSearch;
+  });
 
-  if (loading) return <p className="p-6">Cargando usuarios...</p>
-  if (error) return <p className="p-6 text-red-500">{error}</p>
+  if (loading) return <p className="p-6">Cargando usuarios...</p>;
+  if (error) return <p className="p-6 text-red-500">{error}</p>;
 
   return (
     <>
@@ -136,8 +142,8 @@ export default function AdminUsersPage() {
                     <button
                       className="text-blue-500"
                       onClick={() => {
-                        setSelectedUser(user)
-                        setIsEditModalOpen(true)
+                        setSelectedUser(user);
+                        setIsEditModalOpen(true);
                       }}
                     >
                       Editar
@@ -167,8 +173,8 @@ export default function AdminUsersPage() {
         <EditUserModal
           isOpen={isEditModalOpen}
           onClose={() => {
-            setIsEditModalOpen(false)
-            setSelectedUser(null)
+            setIsEditModalOpen(false);
+            setSelectedUser(null);
           }}
           onConfirm={handleConfirmEdit}
           initialData={{
@@ -179,5 +185,5 @@ export default function AdminUsersPage() {
         />
       )}
     </>
-  )
+  );
 }

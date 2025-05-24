@@ -1,6 +1,6 @@
 import { LoginInput, RegisterInput, LoginResponse } from '@/types/auth';
 
-const BASE_URL = 'http://localhost:8080/api';
+const BASE_URL = 'https://couriersync.onrender.com/api';
 
 export async function register(data: RegisterInput): Promise<void> {
   const res = await fetch(`${BASE_URL}/auth/register`, {

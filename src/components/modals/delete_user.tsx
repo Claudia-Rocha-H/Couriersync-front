@@ -1,4 +1,3 @@
-import { ReactNode } from 'react'
 import { Trash2 } from 'lucide-react'
 
 interface ConfirmDeleteModalProps {

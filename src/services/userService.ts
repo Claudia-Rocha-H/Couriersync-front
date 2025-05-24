@@ -1,6 +1,5 @@
 import { IGetUsers } from '@/types/users'
 
-const BASE_URL_LOCAL = 'http://localhost:8080/api';
 const BASE_URL = 'https://couriersync.onrender.com/api';
 
 export async function getUsers(): Promise<IGetUsers[]> {
