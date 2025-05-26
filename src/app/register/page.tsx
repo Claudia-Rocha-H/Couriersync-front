@@ -13,15 +13,14 @@ import { RegisterInput } from '@/types/auth'
 export default function RegisterPage() {
   const { handleRegister, loading, error } = useAuth()
 
-  // Estado local para los inputs
+
   const [form, setForm] = useState<RegisterInput>({
     name: '',
     email: '',
     password: '',
-    role_id: 2, // Por ejemplo, 2 para operador, o ajusta según tu lógica
+    role_id: 2, 
   })
 
-  // Función para actualizar campos del formulario
   const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     setForm({
       ...form,
@@ -29,7 +28,6 @@ export default function RegisterPage() {
     })
   }
 
-  // Función submit
   const onSubmit = async (e: React.FormEvent) => {
     e.preventDefault()
     await handleRegister(form)
@@ -37,7 +35,7 @@ export default function RegisterPage() {
 
   return (
     <main className="flex h-screen">
-      {/* Columna izquierda: formulario de registro */}
+  
       <div className="w-full md:w-1/2 flex flex-col justify-center items-center bg-white p-8">
         <div className="mb-6 text-center">
           <Image
@@ -91,8 +89,6 @@ export default function RegisterPage() {
           </Link>
         </p>
       </div>
-
-      {/* Columna derecha: imagen de fondo */}
       <div className="hidden md:block md:w-1/2 relative">
         <Image
           src="/img/background.jpg"
