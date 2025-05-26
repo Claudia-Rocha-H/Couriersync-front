@@ -41,6 +41,7 @@ export function useCities() {
         await new Promise(resolve => setTimeout(resolve, 500)); 
         setCities(mockCities);
       } catch (e) {
+        console.error(e);
         setError('No se pudieron cargar las ciudades');
       } finally {
         setLoading(false);
