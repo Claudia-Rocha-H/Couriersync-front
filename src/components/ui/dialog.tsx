@@ -7,9 +7,11 @@ interface DialogProps {
   icon?: ReactNode;
   children: ReactNode;
   footer?: ReactNode;
+  sizeClass?: string;
+  heightClass?: string;
 }
 
-export default function Dialog({ isOpen, onClose, title, icon, children, footer }: DialogProps) {
+export default function Dialog({ isOpen, onClose, title, icon, children, footer, sizeClass, heightClass }: DialogProps) {
   useEffect(() => {
     function handleKeyDown(e: KeyboardEvent) {
       if (e.key === "Escape" && isOpen) {
@@ -28,7 +30,7 @@ export default function Dialog({ isOpen, onClose, title, icon, children, footer 
       onClick={onClose}
     >
       <div
-        className="bg-white p-6 rounded-lg shadow-lg w-full max-w-md relative"
+        className={`bg-white p-6 rounded-lg shadow-lg w-full ${sizeClass || 'max-w-md'} ${heightClass || ''} relative`}
         onClick={(e) => e.stopPropagation()}
       >
         {icon && (

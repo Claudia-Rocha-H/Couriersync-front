@@ -7,15 +7,21 @@ import EditUserModal from '@/components/modals/edit_user';
 import { IGetUsers } from '@/types/users';
 import { deleteUser, updateUser } from '@/services/userService';
 import UserTable from '@/components/tables/userTable';
+import ProtectedRoute from '@/components/security/protectedRoute';
+import { useSession } from '@/features/auth/hooks/useSession';
+import LoadingPage from '@/components/ui/loading_page';
 
 export default function AdminUsersPage() {
-  const { users, loading, error, refetch } = useUsers();
+  const { session, loading } = useSession(['administrator']);
+  const { users, error, refetch } = useUsers(session?.token ?? null);
   const [filter, setFilter] = useState('todos');
   const [search, setSearch] = useState('');
   const [modalOpen, setModalOpen] = useState(false);
   const [userToDelete, setUserToDelete] = useState<number | null>(null);
   const [isEditModalOpen, setIsEditModalOpen] = useState(false);
   const [selectedUser, setSelectedUser] = useState<IGetUsers | null>(null);
+  if (loading) return <LoadingPage message="Cargando ..." />;
+  if (!session) return null;
 
   type EditUserData = {
     name: string;
@@ -90,7 +96,7 @@ export default function AdminUsersPage() {
   if (error) return <p className="p-6 text-red-500">{error}</p>;
 
   return (
-    <>
+    <ProtectedRoute allowedRoles={['administrator']}>
       <section className="bg-white shadow rounded-lg p-6">
         <h2 className="text-2xl font-bold mb-4">Usuarios</h2>
         <div className="flex flex-col md:flex-row justify-between gap-4 mb-6">
@@ -144,6 +150,6 @@ export default function AdminUsersPage() {
           }}
         />
       )}
-    </>
+    </ProtectedRoute>
   );
 }

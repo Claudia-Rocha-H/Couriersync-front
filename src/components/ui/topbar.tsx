@@ -1,11 +1,13 @@
 'use client'
 import { useState, useRef, useEffect } from 'react'
+import { logout } from '@/features/auth/logout'
 
 interface TopbarProps {
-  userName: string
+  userName: string,
+  role: 'admin' | 'operator' | 'driver';
 }
 
-export default function Topbar({ userName }: TopbarProps) {
+export default function Topbar({ userName, role }: TopbarProps) {
   const [isOpen, setIsOpen] = useState(false)
   const dropdownRef = useRef<HTMLDivElement>(null)
 
@@ -24,6 +26,11 @@ export default function Topbar({ userName }: TopbarProps) {
     }
   }, [])
 
+  const handleLogout = (e: React.MouseEvent<HTMLAnchorElement>) => {
+    e.preventDefault()  
+    logout()
+  }
+
   return (
     <header className="fixed top-0 left-0 w-full bg-black text-white p-4 pl-64 z-40">
       <div className="max-w-full flex justify-end items-center">
@@ -35,13 +42,15 @@ export default function Topbar({ userName }: TopbarProps) {
           {isOpen && (
             <div className="absolute right-0 mt-2 w-48 bg-white rounded-lg shadow-md text-gray-800 z-50">
               <a
-                href="/account"
+                href={`/${role}/account`}
                 className="block px-4 py-2 hover:bg-gray-100 transition-colors"
               >
                 Cuenta
               </a>
+
               <a
-                href="/cerrar-sesion"
+                href="#logout"
+                onClick={handleLogout}
                 className="block px-4 py-2 text-red-600 hover:bg-red-100 transition-colors"
               >
                 Cerrar sesión
@@ -53,3 +62,4 @@ export default function Topbar({ userName }: TopbarProps) {
     </header>
   )
 }
+

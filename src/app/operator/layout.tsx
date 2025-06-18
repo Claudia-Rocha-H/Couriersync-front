@@ -5,9 +5,9 @@ import LayoutDashboard from "@/components/layout/layout-dashboard";
 import { useSession } from "@/features/auth/hooks/useSession";
 import LoadingPage from "@/components/ui/loading_page"; 
 
-export default function AdminLayout({ children }: { children: React.ReactNode }) {
+export default function OperatorLayout({ children }: { children: React.ReactNode }) {
   const [collapsed, setCollapsed] = useState<boolean | null>(null);
-  const { session, loading } = useSession(['administrator']);
+  const { session, loading } = useSession(['operator']);
 
   const userEmail = session?.name ?? 'unknown-user';
 
@@ -29,7 +29,7 @@ export default function AdminLayout({ children }: { children: React.ReactNode })
   const toggleSidebar = () => setCollapsed(prev => !prev);
 
   if (loading || collapsed === null) {
-    return <LoadingPage message="Cargando panel de administrador..." />;
+    return <LoadingPage message="Cargando panel de operador..." />;
   }
 
   if (!session) {
@@ -41,10 +41,10 @@ export default function AdminLayout({ children }: { children: React.ReactNode })
   driver: 'driver',
   };
 
-  const dashboardRole = roleMap[session?.role ?? ''] || 'admin';
+  const dashboardRole = roleMap[session?.role ?? ''] || 'operator';
   return (
     <LayoutDashboard
-      userName={session.name || 'Administrador'}
+      userName={session.name || 'Operador'}
       role={dashboardRole}
       collapsed={collapsed}
       toggleSidebar={toggleSidebar}
@@ -53,4 +53,3 @@ export default function AdminLayout({ children }: { children: React.ReactNode })
     </LayoutDashboard>
   );
 }
-

@@ -96,6 +96,7 @@ export default function RegisterPage() {
           fill
           className="object-cover"
         />
+        <div className="absolute inset-0 bg-blue-900/50" />
       </div>
     </main>
   )

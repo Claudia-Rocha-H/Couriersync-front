@@ -25,7 +25,7 @@ export default function LayoutDashboard({
           collapsed ? "ml-[64px]" : "ml-[256px]"
         }`}
       >
-        <Topbar userName={userName} />
+        <Topbar userName={userName} role ={role} />
         <main>{children}</main>
       </div>
     </div>

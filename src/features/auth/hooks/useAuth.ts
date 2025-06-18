@@ -22,13 +22,13 @@ export function useAuth() {
         router.push('/admin/home');
         break;
       case 'operator':
-        router.push('/operator');
+        router.push('/operator/home');
         break;
       case 'driver':
-        router.push('/driver');
+        router.push('/driver/home');
         break;
       default:
-        router.push('/default');
+        router.push('/login');
         break;
     }
   } catch (err: unknown) {

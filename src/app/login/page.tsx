@@ -25,7 +25,6 @@ export default function LoginPage() {
 
   return (
     <main className="flex h-screen">
-      {/* Columna Izquierda */}
       <div className="w-full md:w-1/2 flex flex-col justify-center items-center bg-white p-8">
         <div className="mb-6 text-center">
           <Image src="/img/logo.png" alt="Logo" width={120} height={120} className="mx-auto mb-2" />
@@ -70,6 +69,7 @@ export default function LoginPage() {
 
       <div className="hidden md:block md:w-1/2 relative">
         <Image src="/img/background.jpg" alt="Background" fill className="object-cover" />
+        <div className="absolute inset-0 bg-blue-900/50" />
       </div>
     </main>
   )

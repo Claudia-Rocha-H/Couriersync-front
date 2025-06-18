@@ -8,6 +8,7 @@ import {
   Settings,
   ChevronLeft,
   ChevronRight,
+  Truck
 } from 'lucide-react';
 
 const iconMap: Record<string, React.ReactNode> = {
@@ -17,6 +18,7 @@ const iconMap: Record<string, React.ReactNode> = {
   Rutas: <Route className="w-5 h-5" />,
   Asignaciones: <Settings className="w-5 h-5" />,
   Roles: <Settings className="w-5 h-5" />,
+  Conductores: <Truck className= "w-5 h-5"/>
 };
 
 interface SidebarProps {
@@ -35,9 +37,9 @@ const linksByRole = {
     { label: 'Roles', href: '#', icon: <Settings size={20} /> },
   ],
   operator: [
-    { label: 'Inicio', href: '#', icon: <Home size={20} /> },
-    { label: 'Conductores', href: '#', icon: <Users size={20} /> },
-    { label: 'Rutas', href: '#', icon: <Route size={20} /> },
+    { label: 'Inicio', href: '/operator/home', icon: <Home size={20} /> },
+    { label: 'Conductores', href: '#', icon: <Truck size={20} /> },
+    { label: 'Rutas', href: '/operator/routes', icon: <Route size={20} /> },
     { label: 'Asignaciones', href: '#', icon: <Settings size={20} /> },
   ],
   driver: [],

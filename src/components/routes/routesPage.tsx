@@ -3,6 +3,7 @@
 import React, { useState } from 'react';
 import { Filters } from './filters';
 import { RouteTable, Route } from '@/components/tables/routeTable';
+import CreateRouteModal from '@/components/modals/create-route';
 
 const dummyRoutes: Route[] = [
   {
@@ -116,7 +117,8 @@ export function RoutesPage() {
   const [destinationCity, setDestinationCity] = useState('');
   const [searchTerm, setSearchTerm] = useState('');
 
-  
+  const [isCreateModalOpen, setIsCreateModalOpen] = useState(false);
+
   const filteredRoutes = routes.filter((route) => {
     const matchOrigin =
       !originCity || route.origin.toLowerCase() === originCity.toLowerCase();
@@ -125,14 +127,13 @@ export function RoutesPage() {
     const matchSearch =
       searchTerm === '' ||
       route.id.toLowerCase().includes(searchTerm.toLowerCase());
-
     return matchOrigin && matchDestination && matchSearch;
   });
 
-  
   function handleEdit(id: string) {
     alert(`Editar ruta ${id}`);
   }
+
   function handleDelete(id: string) {
     const confirmed = confirm(`¿Seguro que quieres borrar la ruta ${id}?`);
     if (confirmed) {
@@ -146,8 +147,23 @@ export function RoutesPage() {
     setSearchTerm('');
   }
 
+  function handleCreateRoute(origin: string, destination: string) {
+    console.log('Nueva ruta creada:', origin, destination);
+    const newRoute: Route = {
+      id: `R-${Math.floor(Math.random() * 1000)}`,
+      origin,
+      destination,
+      distanceKm: 100, 
+      estimatedDuration: '2h',
+      edited: false,
+      lastEditedBy: 'Pedro Salazar',
+      lastEditedDate: '2025-05-25T12:15:00Z',
+    };
+    setRoutes((prev) => [...prev, newRoute]);
+  }
+
   return (
-    <div >
+    <div>
       <p className="text-gray-600 mb-4">Listado de rutas activas en CourierSync</p>
 
       <Filters
@@ -158,13 +174,27 @@ export function RoutesPage() {
         onDestinationCityChange={setDestinationCity}
         onSearchTermChange={setSearchTerm}
         onReset={resetFilters}
-        cities={allCities}
+        cities={['Bogotá', 'Medellín', 'Cali', 'Barranquilla', 'Cartagena']}
       />
 
+      
       <RouteTable
         routes={filteredRoutes}
         onEdit={handleEdit}
         onDelete={handleDelete}
+      />
+      <div className="mt-4 flex justify-center">
+        <button
+          onClick={() => setIsCreateModalOpen(true)}
+          className="bg-blue-600 text-white px-4 py-2 rounded hover:bg-blue-700 transition"
+        >
+          Crear ruta
+        </button>
+      </div>
+      <CreateRouteModal
+        isOpen={isCreateModalOpen}
+        onClose={() => setIsCreateModalOpen(false)}
+        onCreate={handleCreateRoute}
       />
     </div>
   );
