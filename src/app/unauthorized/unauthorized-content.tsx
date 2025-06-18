@@ -20,6 +20,11 @@ const errorContent = {
     message: 'El recurso solicitado no ha sido encontrado.',
     imgSrc: '/img/404.svg',
   },
+  '998': {
+    title: 'Actividad sospechosa',
+    message: 'Se detectó un intento de acción maliciosa. Esta acción ha sido bloqueada.',
+    imgSrc: '/img/998.png', 
+   },
 };
 
 export default function UnauthorizedPage() {
@@ -45,12 +50,14 @@ export default function UnauthorizedPage() {
         <p className="text-gray-700 max-w-md mb-8">{message}</p>
       </div>
 
-      <Link
+    {code !== '998' && (
+    <Link
         href="/login"
         className="bg-blue-800 text-white px-6 py-3 rounded hover:bg-blue-700 transition mt-6"
-      >
+    >
         Iniciar sesión
-      </Link>
+    </Link>
+    )}
     </div>
   );
 }
