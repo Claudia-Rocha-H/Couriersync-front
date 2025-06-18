@@ -1,10 +1,11 @@
 'use client';
 
+import Image from 'next/image';
 import { useState, useRef, useEffect } from 'react';
 import { logout } from '@/features/auth/logout';
 
 interface DriverTopbarProps {
-  userName: string,
+  userName: string;
   role: 'admin' | 'operator' | 'driver';
 }
 
@@ -28,7 +29,15 @@ export default function DriverTopbar({ userName }: DriverTopbarProps) {
   return (
     <nav className="fixed top-0 left-0 w-full bg-black text-white flex items-center justify-between px-6 py-3 z-40">
       <div className="flex items-center gap-3">
-       <img src="/img/logo.png" alt="Logo" className="w-10 h-10" />
+        <div className="relative w-10 h-10">
+          <Image
+            src="/img/logo.png"
+            alt="Logo"
+            fill
+            className="object-contain"
+            priority
+          />
+        </div>
         <span className="font-bold text-lg">CourierSync</span>
       </div>
 
@@ -41,7 +50,15 @@ export default function DriverTopbar({ userName }: DriverTopbarProps) {
       <div ref={dropdownRef} className="relative">
         <div onClick={toggleDropdown} className="flex items-center gap-2 cursor-pointer">
           <span>{userName}</span>
-          <img src="/img/avatar.png" alt="Avatar" className="w-10 h-10 rounded-full" />
+          <div className="relative w-10 h-10">
+            <Image
+              src="/img/avatar.png"
+              alt="Avatar"
+              fill
+              className="rounded-full object-cover"
+              priority
+            />
+          </div>
         </div>
 
         {isOpen && (

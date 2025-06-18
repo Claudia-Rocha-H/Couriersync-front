@@ -1,4 +1,6 @@
 'use client'
+
+import Image from 'next/image'
 import { useState, useRef, useEffect } from 'react'
 import { logout } from '@/features/auth/logout'
 
@@ -27,7 +29,7 @@ export default function Topbar({ userName, role }: TopbarProps) {
   }, [])
 
   const handleLogout = (e: React.MouseEvent<HTMLAnchorElement>) => {
-    e.preventDefault()  
+    e.preventDefault()
     logout()
   }
 
@@ -37,8 +39,17 @@ export default function Topbar({ userName, role }: TopbarProps) {
         <div ref={dropdownRef} className="relative">
           <div className="flex items-center gap-4 cursor-pointer" onClick={toggleDropdown}>
             <span>{userName}</span>
-            <img src="/img/avatar.png" alt="Avatar" className="w-10 h-10 rounded-full" />
+            <div className="relative w-10 h-10">
+              <Image
+                src="/img/avatar.png"
+                alt="Avatar"
+                fill
+                className="rounded-full object-cover"
+                priority
+              />
+            </div>
           </div>
+
           {isOpen && (
             <div className="absolute right-0 mt-2 w-48 bg-white rounded-lg shadow-md text-gray-800 z-50">
               <a
@@ -62,4 +73,3 @@ export default function Topbar({ userName, role }: TopbarProps) {
     </header>
   )
 }
-

@@ -1,14 +1,17 @@
 'use client'
 
 import Link from 'next/link'
+import Image from 'next/image';
 
 export default function NotFoundPage() {
   return (
     <div className="min-h-screen flex flex-col items-center justify-center bg-gray-50 px-4 text-center">
       <div className="flex flex-col items-center" style={{ width: '80vw', maxHeight: '80vh' }}>
-        <img
+        <Image
           src="/img/404.svg"
           alt="Página no encontrada"
+          width={800} 
+          height={600}
           style={{ maxWidth: '100%', maxHeight: '60vh', objectFit: 'contain' }}
           className="mb-6"
         />

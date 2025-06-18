@@ -2,6 +2,7 @@
 
 import Link from 'next/link';
 import { useSearchParams } from 'next/navigation';
+import Image from 'next/image'; 
 
 const errorContent = {
   '401': {
@@ -29,12 +30,16 @@ export default function UnauthorizedPage() {
   return (
     <div className="min-h-screen flex flex-col items-center justify-center bg-gray-50 px-4 text-center">
       <div className="flex flex-col items-center" style={{ width: '80vw', maxHeight: '80vh' }}>
-        <img
-          src={imgSrc}
-          alt={title}
-          style={{ maxWidth: '100%', maxHeight: '60vh', objectFit: 'contain' }}
-          className="mb-6"
-        />
+        <div className="relative w-full max-w-xl h-[60vh] mb-6">
+          <Image
+            src={imgSrc}
+            alt={title}
+            fill 
+            style={{ objectFit: 'contain' }}
+            priority 
+          />
+        </div>
+
         <h1 className="text-5xl font-bold text-blue-900 mb-2">{code}</h1>
         <h2 className="text-2xl font-semibold mb-4">{title}</h2>
         <p className="text-gray-700 max-w-md mb-8">{message}</p>
@@ -49,3 +54,4 @@ export default function UnauthorizedPage() {
     </div>
   );
 }
+

@@ -1,6 +1,6 @@
 'use client';
 import Image from 'next/image';
-
+import Link from 'next/link'
 import {
   Home,
   Users,
@@ -58,7 +58,7 @@ export default function Sidebar({ role, collapsed, toggleSidebar }: SidebarProps
     >
       <div className="relative px-4 mb-6">
         <div className="flex items-center">
-          <Image src="/logo.png" alt="Logo" width={10} height={10} />
+          <Image src="/img/logo.png" alt="Logo" width={50} height={50} />
           {!collapsed && (
             <h1 className="text-xl font-bold ml-2 whitespace-nowrap">
               CourierSync
@@ -83,7 +83,7 @@ export default function Sidebar({ role, collapsed, toggleSidebar }: SidebarProps
 
       <nav className="mt-2">
         {links.map((link) => (
-          <a
+          <Link
             key={link.label}
             href={link.href}
             className={`flex items-center gap-2 py-2 px-4 hover:bg-blue-700 rounded transition ${
@@ -92,7 +92,7 @@ export default function Sidebar({ role, collapsed, toggleSidebar }: SidebarProps
           >
             {iconMap[link.label]}
             {!collapsed && <span>{link.label}</span>}
-          </a>
+          </Link>
         ))}
       </nav>
     </aside>

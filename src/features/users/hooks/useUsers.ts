@@ -1,4 +1,4 @@
-import { useEffect, useState } from 'react'
+import { useEffect, useState, useCallback } from 'react'
 import { getUsers } from '@/services/userService'
 import { IGetUsers } from '@/types/users'
 
@@ -7,8 +7,8 @@ export function useUsers(sessionToken: string | null) {
   const [loading, setLoading] = useState(false)
   const [error, setError] = useState('')
 
-  const fetchUsers = async () => {
-    if (!sessionToken) return; 
+  const fetchUsers = useCallback(async () => {
+    if (!sessionToken) return;
 
     setLoading(true)
     setError('')
@@ -24,11 +24,11 @@ export function useUsers(sessionToken: string | null) {
     } finally {
       setLoading(false)
     }
-  }
+  }, [sessionToken])
 
   useEffect(() => {
     fetchUsers()
-  }, [sessionToken]) 
+  }, [fetchUsers])
 
   return { users, loading, error, refetch: fetchUsers }
 }
