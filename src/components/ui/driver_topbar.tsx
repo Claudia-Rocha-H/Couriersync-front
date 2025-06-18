@@ -8,7 +8,7 @@ interface DriverTopbarProps {
   role: 'admin' | 'operator' | 'driver';
 }
 
-export default function DriverTopbar({ userName, role }: DriverTopbarProps) {
+export default function DriverTopbar({ userName }: DriverTopbarProps) {
   const [isOpen, setIsOpen] = useState(false);
   const dropdownRef = useRef<HTMLDivElement>(null);
 

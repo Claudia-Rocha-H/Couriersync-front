@@ -108,9 +108,6 @@ const dummyRoutes: Route[] = [
   },
 ];
 
-
-const allCities = ['Bogotá', 'Medellín', 'Cali', 'Barranquilla', 'Cartagena'];
-
 export function RoutesPage() {
   const [routes, setRoutes] = useState<Route[]>(dummyRoutes);
   const [originCity, setOriginCity] = useState('');

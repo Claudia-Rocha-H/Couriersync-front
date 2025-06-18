@@ -1,4 +1,5 @@
 'use client';
+import Image from 'next/image';
 
 import {
   Home,
@@ -57,7 +58,7 @@ export default function Sidebar({ role, collapsed, toggleSidebar }: SidebarProps
     >
       <div className="relative px-4 mb-6">
         <div className="flex items-center">
-          <img src="/img/logo.png" alt="Logo" className="w-10 h-10" />
+          <Image src="/logo.png" alt="Logo" width={10} height={10} />
           {!collapsed && (
             <h1 className="text-xl font-bold ml-2 whitespace-nowrap">
               CourierSync
