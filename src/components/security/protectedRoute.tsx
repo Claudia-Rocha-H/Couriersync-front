@@ -30,7 +30,7 @@ export default function ProtectedRoute({ children, allowedRoles }: ProtectedRout
   const searchParams = useSearchParams();
 
   useEffect(() => {
-    for (const [_, value] of searchParams.entries()) {
+    for (const value of searchParams.values()) {
       if (detectMaliciousActivity(value)) {
         router.replace('/unauthorized?code=998');
         return;
