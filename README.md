@@ -1,36 +1,75 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+# CourierSync
 
-## Getting Started
+[![GitHub last commit](https://img.shields.io/github/last-commit/Claudia-Rocha-H/Couriersync-front)](https://github.com/Claudia-Rocha-H/Couriersync-front/commits/main)
+[![GitHub issues](https://img.shields.io/github/issues/Claudia-Rocha-H/Couriersync-front)](https://github.com/Claudia-Rocha-H/Couriersync-front/issues)
 
-First, run the development server:
+## Project Overview
+
+CourierSync is a comprehensive web-based logistics management platform designed to optimize the administration of routes, vehicles, and drivers within a courier company. It features role-based dashboards (Administrator, Operator, and Driver) with secure access, an intuitive interface, and full CRUD (Create, Read, Update, Delete) functionalities across all modules.
+
+## Key Features
+
+* **Comprehensive Management:** Facilitates the management of users, vehicles, routes, cities, and assignments.
+* **Full CRUD Operations:** Complete CRUD capabilities for each management module.
+* **Role-Based Interfaces:**
+    * **Admin:** Full system management access.
+    * **Operator:** Oversight of assignments and routes, including reporting.
+    * **Driver:** Personal assignment viewing and route details.
+* **Secure Authentication:** Protected by session-based authentication and robust role validation.
+* **Security Measures:** Includes early detection mechanisms for SQL injection attempts and other malicious activity.
+
+## Technologies Used
+
+* **Frontend:**
+    * **Next.js 15**
+    * **TypeScript**
+    * **TailwindCSS**
+    * **React Hook Form** with **Zod** for form validation.
+    * **Deployment:** Vercel
+* **Backend:** 
+    * **Spring Boot**
+    * **PostgreSQL** (Database modeling and deployment on Railway)
+* **Design:** Figma (Atomic Design)
+
+## Project Structure (Frontend)
 
 ```bash
-npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
+src/
+├── components/          # Reusable UI components
+├── features/            # Module-specific logic (auth, users, routes, etc.)
+├── app/                 # Next.js routes and pages
+├── hooks/               # Custom React hooks
+├── lib/                 # Utility functions
+└── styles/              # Global style configurations
 ```
+## Role-Based Access & Functionalities
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+| Role       | Access                                                                     |
+| :--------- | :------------------------------------------------------------------------- |
+| **Admin** | Full panel access, management of users, routes, vehicles, cities, assignments. |
+| **Operator** | Routes, assignments, and reports.                                          |
+| **Driver** | Personal assignments and route details.                                    |
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
+## Preview
+Deployment: https://couriersync.vercel.app/login
 
-## Learn More
+See a demonstration of the application's navigation and role-based interactions below:
 
-To learn more about Next.js, take a look at the following resources:
+![Demo CourierSync](media/demo.gif)
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+### Map Integration
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
+The application also integrates with mapping services to visualize routes. Here's an example of a loaded map:
 
-## Deploy on Vercel
+![Map loaded with OpenRouteService](media/mapa.png "A screenshot showing a map with a route loaded via OpenRouteService API.")
 
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
+## Security
 
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+* Utilizes `ProtectedRoute` for session and role-based validation.
+* Implements detection of malicious parameters (e.g., XSS, SQLi) from navigation inputs.
+* Custom error response (error 998) for detected malicious attempts.
+
+## Authorship
+
+Developed by Claudia Rocha H.
